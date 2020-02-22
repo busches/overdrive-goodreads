@@ -1,10 +1,11 @@
-const addReview = (book, rating) => {
-    const ratingElement = document.createElement('span');
-    ratingElement.style.float = "right";
-    const ratingText = document.createTextNode(`GR ${rating}`);
-    ratingElement.appendChild(ratingText);
+import React from 'dom-chef';
 
-    book.querySelector('.icon-audiobook').parentElement.appendChild(ratingElement);
+const addReview = (book, rating) => {
+    book.querySelector('.icon-audiobook').parentElement.appendChild(
+        <span style={{float: 'right'}}>
+            GR {rating}
+        </span>
+    );
 };
 
 const searchGoodReads = (title, author, book) => {
@@ -17,8 +18,10 @@ const searchGoodReads = (title, author, book) => {
 const getBookList = () => document.querySelectorAll('.js-title-collection-view li.js-titleCard');
 
 const searchForBooks = () => {
+    // TODO Trash this
     console.log("searching")
 
+    // TODO do this smarter
     const foundBooks = getBookList();
     if (foundBooks.length === 0) {
         setTimeout(searchForBooks, 1000);
@@ -32,4 +35,9 @@ const searchForBooks = () => {
     }
 };
 
+// TODO replace with the library RGH uses
 document.addEventListener('DOMContentLoaded', searchForBooks);
+
+// TODO bring in XO
+// TODO bring in select
+// TODO why does this have a menu icon in chrome

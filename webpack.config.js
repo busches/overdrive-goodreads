@@ -25,8 +25,18 @@ var options = {
     path: path.join(__dirname, "build"),
     filename: "[name].bundle.js"
   },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        loader: "babel-loader",
+        exclude: /node_modules/
+      }
+    ]
+  },
   resolve: {
-    alias: alias
+    alias: alias,
+    extensions: [".jsx", ".js", ".css"]
   },
   plugins: [
     // clean the build folder

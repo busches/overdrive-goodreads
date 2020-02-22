@@ -1,10 +1,9 @@
 var webpack = require("webpack"),
-    path = require("path"),
-    fileSystem = require("fs"),
-    env = require("./utils/env"),
-    CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin,
-    CopyWebpackPlugin = require("copy-webpack-plugin"),
-    WriteFilePlugin = require("write-file-webpack-plugin");
+  path = require("path"),
+  fileSystem = require("fs"),
+  env = require("./utils/env"),
+  CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin,
+  CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // load the secrets
 var alias = {};
@@ -53,8 +52,7 @@ var options = {
           ...JSON.parse(content.toString())
         }))
       }
-    }]),
-    new WriteFilePlugin()
+    }])
   ]
 };
 

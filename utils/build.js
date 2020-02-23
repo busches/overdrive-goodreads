@@ -1,7 +1,11 @@
-var webpack = require("webpack"),
-    config = require("../webpack.config");
+const webpack = require('webpack');
+const config = require('../webpack.config');
 
 webpack(
-  config,
-  function (err) { if (err) throw err; }
+	config,
+	err => {
+		if (err) {
+			throw err;
+		}
+	}
 );

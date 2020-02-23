@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "A boilerplate to chrome extension with webpack",
   "scripts": {
-    "build": "node utils/build.js"
+    "build": "node utils/build.js",
+    "lint": "xo",
+    "lint-fix": "xo --fix"
   },
   "dependencies": {
     "dom-chef": "^3.6.2",
@@ -16,6 +18,23 @@
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
     "webpack": "4.41.6",
-    "webpack-cli": "3.3.11"
+    "webpack-cli": "3.3.11",
+    "xo": "^0.26.1"
+  },
+  "xo": {
+    "envs": [
+      "browser"
+    ],
+    "globals": [
+      "chrome"
+    ],
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "varsIgnorePattern": "^React$"
+        }
+      ]
+    }
   }
 }

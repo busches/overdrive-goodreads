@@ -26,7 +26,7 @@ var options = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js)$/,
         loader: "babel-loader",
         exclude: /node_modules/
       }
@@ -34,7 +34,7 @@ var options = {
   },
   resolve: {
     alias: alias,
-    extensions: [".jsx", ".js", ".css"]
+    extensions: [".js"]
   },
   plugins: [
     // clean the build folder

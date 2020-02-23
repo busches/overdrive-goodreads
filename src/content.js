@@ -1,7 +1,7 @@
 import React from 'dom-chef';
 
 const addReview = (book, rating) => {
-    book.querySelector('.icon-audiobook').parentElement.appendChild(
+    book.querySelector('span i').parentElement.appendChild(
         <span style={{float: 'right'}}>
             GR {rating}
         </span>
@@ -27,7 +27,7 @@ const searchForBooks = () => {
         setTimeout(searchForBooks, 1000);
     } else {
         foundBooks.forEach(book => {
-            const title = book.querySelector("a[data-type='audiobook']").dataset.title;
+            const title = book.querySelector("h3").title;
             const author = book.querySelector(".title-author a").title;
 
             searchGoodReads(title, author, book);

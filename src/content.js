@@ -15,14 +15,14 @@ const searchGoodReads = (title, author, book) => {
     );
 }
 
-const getBookList = () => document.querySelectorAll('.js-title-collection-view li.js-titleCard');
+const getBooks = () => document.querySelectorAll('li.js-titleCard');
 
 const searchForBooks = () => {
     // TODO Trash this
     console.log("searching")
 
     // TODO do this smarter
-    const foundBooks = getBookList();
+    const foundBooks = getBooks();
     if (foundBooks.length === 0) {
         setTimeout(searchForBooks, 1000);
     } else {

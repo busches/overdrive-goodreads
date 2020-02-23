@@ -1,14 +1,13 @@
 var webpack = require("webpack"),
   path = require("path"),
   fileSystem = require("fs"),
-  env = require("./utils/env"),
   CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin,
   CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // load the secrets
 var alias = {};
 
-var secretsPath = path.join(__dirname, ("secrets." + env.NODE_ENV + ".js"));
+var secretsPath = path.join(__dirname, ("secrets.js"));
 
 if (fileSystem.existsSync(secretsPath)) {
   alias["secrets"] = secretsPath;
@@ -40,8 +39,6 @@ var options = {
   plugins: [
     // clean the build folder
     new CleanWebpackPlugin(),
-    // expose and write the allowed env vars on the compiled bundle
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
     new CopyWebpackPlugin([{
       from: "src/manifest.json",
       transform: function (content, path) {
@@ -55,9 +52,5 @@ var options = {
     }])
   ]
 };
-
-if (env.NODE_ENV === "development") {
-  options.devtool = "cheap-module-eval-source-map";
-}
 
 module.exports = options;

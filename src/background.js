@@ -10,11 +10,15 @@ const getGoodreadsData = mem(async searchString => {
 	const numberOfResults = data.querySelector('total-results').textContent;
 
 	if (numberOfResults === '0') {
-		return '??';
+		return {
+			rating: '??'
+		};
 	}
 
 	const rating = data.querySelector('work average_rating').textContent;
+	const bookId = data.querySelector('work best_book id').textContent;
 	return {
+		bookId,
 		rating
 	};
 }, {

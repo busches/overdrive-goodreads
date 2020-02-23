@@ -1,9 +1,15 @@
 import React from 'dom-chef';
 
 const addReview = (book, bookData) => {
+	// TODO Display series name here too
+	let rating = `GR ${bookData.rating}`;
+	if (bookData.bookId) {
+		rating = <a href={`https://www.goodreads.com/book/show/${bookData.bookId}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
+	}
+
 	book.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
-            GR {bookData.rating}
+			{rating}
 		</span>
 	);
 };

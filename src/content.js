@@ -1,9 +1,9 @@
 import React from 'dom-chef';
 
-const addReview = (book, rating) => {
+const addReview = (book, bookData) => {
 	book.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
-            GR {rating}
+            GR {bookData.rating}
 		</span>
 	);
 };
@@ -11,7 +11,7 @@ const addReview = (book, rating) => {
 const searchGoodReads = (title, author, book) => {
 	chrome.runtime.sendMessage(
 		{title, author},
-		rating => addReview(book, rating)
+		bookData => addReview(book, bookData)
 	);
 };
 
@@ -38,6 +38,5 @@ const searchForBooks = () => {
 // TODO replace with the library RGH uses
 document.addEventListener('DOMContentLoaded', searchForBooks);
 
-// TODO bring in XO
 // TODO bring in select
 // TODO why does this have a menu icon in chrome

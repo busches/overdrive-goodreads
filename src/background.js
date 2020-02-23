@@ -8,5 +8,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         .then(data => sendResponse(data.querySelector('work average_rating').textContent))
         .catch(console.error);
 
+        
     return true;
 });

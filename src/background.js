@@ -4,11 +4,13 @@ import mem from 'mem';
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 
 const getGoodreadsData = mem(async searchString => {
+	// TODO Move this to API class
 	const response = await fetch(`https://www.goodreads.com/search/index?key=${secrets.goodreadsApiKey}&q=${encodeURIComponent(searchString)}`);
 	const xml = await response.text();
 	const data = (new window.DOMParser()).parseFromString(xml, 'text/xml');
-	const numberOfResults = data.querySelector('total-results').textContent;
+	const numberOfResults = data.querySelector('results-end').textContent; // total-results is sometimes just wrong
 
+	// Swap to search by title, then attempt to match on author
 	if (numberOfResults !== '1') {
 		return {
 			rating: '??',

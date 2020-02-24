@@ -9,9 +9,10 @@ const getGoodreadsData = mem(async searchString => {
 	const data = (new window.DOMParser()).parseFromString(xml, 'text/xml');
 	const numberOfResults = data.querySelector('total-results').textContent;
 
-	if (numberOfResults === '0') {
+	if (numberOfResults !== '1') {
 		return {
-			rating: '??'
+			rating: '??',
+			searchString
 		};
 	}
 
@@ -19,7 +20,8 @@ const getGoodreadsData = mem(async searchString => {
 	const bookId = data.querySelector('work best_book id').textContent;
 	return {
 		bookId,
-		rating
+		rating,
+		searchString
 	};
 }, {
 	maxAge: ONE_WEEK

@@ -1,23 +1,25 @@
 import React from 'dom-chef';
 
-const addReview = (book, bookData) => {
+const addReview = (bookElement, bookData) => {
 	// TODO Display series name here too
 	let rating = `GR ${bookData.rating}`;
 	if (bookData.bookId) {
 		rating = <a href={`https://www.goodreads.com/book/show/${bookData.bookId}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
+	} else {
+		rating = <a href={`https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
 	}
 
-	book.querySelector('span i').parentElement.append(
+	bookElement.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
 			{rating}
 		</span>
 	);
 };
 
-const searchGoodReads = (title, author, book) => {
+const searchGoodReads = (title, author, bookElement) => {
 	chrome.runtime.sendMessage(
 		{title, author},
-		bookData => addReview(book, bookData)
+		bookData => addReview(bookElement, bookData)
 	);
 };
 

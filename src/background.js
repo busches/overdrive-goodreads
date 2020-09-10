@@ -3,7 +3,13 @@ import mem from 'mem';
 
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 
-const getGoodreadsData = mem(async searchString => {
+// https://bridges.overdrive.com/bridges-kirkendall/content/search/creatorId?query=453001&sortBy=newlyadded&format=audiobook-overdrive
+// Alice and wonderland goes to wrong result
+// Lots of classics link to wrong version
+// https://www.goodreads.com/search/index?key=m&q=Alice%27s%20Adventures%20in%20Wonderland%20Lewis%20Carroll
+
+const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
+	const searchString = `${searchTitle} ${searchAuthor}`;
 	const noMatchFound = {
 		rating: '??',
 		searchString
@@ -15,20 +21,27 @@ const getGoodreadsData = mem(async searchString => {
 	const data = (new window.DOMParser()).parseFromString(xml, 'text/xml');
 	const numberOfResults = data.querySelector('results-end').textContent; // Total-results is sometimes just wrong
 
+	console.log(`Search for ${searchString}`)
+
 	if (numberOfResults > 1) {
 		const allResults = data.querySelectorAll('work');
 		const filteredResults = [];
 		allResults.forEach(searchResult => {
 			// A lot of results start with 'Summary' we don't care about those
+			// Also don't care about books with no ratings
 			const title = searchResult.querySelector('title').textContent;
-			if (!title.startsWith('Summary')) {
+			const ratingsCount = parseInt(searchResult.querySelector('ratings_count').textContent, 10);
+			if (!title.startsWith('Summary') && ratingsCount > 0) {
 				filteredResults.push(searchResult);
 			}
 		});
 
+		console.log('Filtered results count', filteredResults.length)
+
 		// If all the remaining results have the same name, prefer the one with more results
 		if (filteredResults.length > 1) {
-			const allTitles = filteredResults.map(searchResult => searchResult.querySelectorAll('title').textContent);
+			console.log('Filtered results', filteredResults)
+			const allTitles = filteredResults.map(searchResult => searchResult.querySelector('title').textContent);
 			const firstTitle = allTitles[0];
 			const allTitlesMatch = allTitles.every(title => title === firstTitle);
 
@@ -45,6 +58,23 @@ const getGoodreadsData = mem(async searchString => {
 				});
 
 				return getResultMatchData(highestRatedResult, searchString);
+			} else {
+				const exactTitleMatches = [];
+				filteredResults.forEach(searchResult => {
+					const title = searchResult.querySelector('title').textContent;
+					if (title === searchTitle) {
+						exactTitleMatches.push(searchResult);
+					}
+				});
+
+				if (exactTitleMatches.length === 1) {
+					return getResultMatchData(exactTitleMatches[0], searchString)
+				}
+
+				// Too many matches
+				// Options to do this, we can find a match on author and take highest number of ratings
+				// Highest number of ratings without author doesn't work here: https://www.goodreads.com/search?q=Common%20Sense%20Thomas%20Paine
+				return noMatchFound;
 			}
 		} else if (filteredResults.length === 1) {
 			return getResultMatchData(filteredResults[0], searchString);
@@ -59,8 +89,7 @@ const getGoodreadsData = mem(async searchString => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	const searchString = `${request.title} ${request.author}`;
-	getGoodreadsData(searchString).then(sendResponse);
+	getGoodreadsData(request.title, request.author).then(sendResponse);
 	return true;
 });
 

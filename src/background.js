@@ -36,15 +36,19 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 			}
 		});
 
-		console.log('Filtered results count', filteredResults.length)
+		console.log(searchString, 'Filtered results count', filteredResults.length)
 
 		// If all the remaining results have the same name, prefer the one with more results
 		if (filteredResults.length > 1) {
-			console.log('Filtered results', filteredResults)
-			const allTitles = filteredResults.map(searchResult => searchResult.querySelector('title').textContent);
+			console.log(searchString, 'Filtered results', filteredResults)
+			const allTitles = filteredResults.map(searchResult => {
+				console.log(searchString, "Search Result:", searchResult);
+				return searchResult.querySelector('title').textContent.toLowerCase()
+			});
 			const firstTitle = allTitles[0];
 			const allTitlesMatch = allTitles.every(title => title === firstTitle);
-
+			
+			console.log(searchString, "All Titles Match", allTitlesMatch)
 			if (allTitlesMatch) {
 				let highestRatedResult = null;
 				let highestRating = 0;
@@ -67,6 +71,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 					}
 				});
 
+				// This isn't perfect either: https://www.goodreads.com/search/index?key=m&q=The%20Story%20of%20My%20Life%20Helen%20Keller
 				if (exactTitleMatches.length === 1) {
 					return getResultMatchData(exactTitleMatches[0], searchString)
 				}

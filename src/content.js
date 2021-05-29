@@ -3,11 +3,7 @@ import React from 'dom-chef';
 const addReview = (bookElement, bookData) => {
 	// TODO Display series name here too
 	let rating = `GR ${bookData.rating}`;
-	if (bookData.bookId) {
-		rating = <a href={`https://www.goodreads.com/book/show/${bookData.bookId}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
-	} else {
-		rating = <a href={`https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
-	}
+	rating = bookData.bookId ? <a href={`https://www.goodreads.com/book/show/${bookData.bookId}`} target="_blank" rel="noopener noreferrer">{rating}</a> : <a href={`https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
 
 	bookElement.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
@@ -24,19 +20,19 @@ const searchGoodReads = (title, author, bookElement) => {
 };
 
 const searchForBooks = container => {
-	container.querySelectorAll('li.js-titleCard').forEach(book => {
+	for (const book of container.querySelectorAll('li.js-titleCard')) {
 		const title = book.querySelector('h3').title;
 		const author = book.querySelector('.title-author a').title;
 
 		searchGoodReads(title, author, book);
-	});
+	}
 };
 
 const startListener = () => {
 	// .js-relatedTitlesContainer is used for "You may also like"
 	// .js-dynamic-content is for all collection pages
 	// .RTLRecommendations is used for "Didn't find what you were looking for?"
-	document.querySelectorAll('.js-relatedTitlesContainer, .js-dynamic-content, .RTLRecommendations').forEach(updatable => {
+	for (const updatable of document.querySelectorAll('.js-relatedTitlesContainer, .js-dynamic-content, .RTLRecommendations')) {
 		const observer = new MutationObserver(() => {
 			searchForBooks(updatable);
 		});
@@ -44,7 +40,7 @@ const startListener = () => {
 
 		// Search once content is loaded, as there's no guarantee our extension will load before the page already loads in the data
 		searchForBooks(updatable);
-	});
+	}
 };
 
 document.addEventListener('DOMContentLoaded', startListener);

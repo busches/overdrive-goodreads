@@ -3,9 +3,9 @@ const config = require('../webpack.config');
 
 webpack(
 	config,
-	err => {
-		if (err) {
-			throw err;
+	error => {
+		if (error) {
+			throw error;
 		}
 	}
 );

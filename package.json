@@ -8,8 +8,8 @@
     "lint-fix": "xo --fix"
   },
   "dependencies": {
-    "dom-chef": "^3.6.2",
-    "mem": "^6.0.1"
+    "dom-chef": "^5.0.0",
+    "mem": "^8.1.1"
   },
   "devDependencies": {
     "@babel/core": "7.14.3",

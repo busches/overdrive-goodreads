@@ -12,9 +12,9 @@
     "mem": "^6.0.1"
   },
   "devDependencies": {
-    "@babel/core": "7.8.4",
-    "@babel/preset-react": "7.8.3",
-    "babel-loader": "8.0.6",
+    "@babel/core": "7.14.3",
+    "@babel/preset-react": "7.13.13",
+    "babel-loader": "8.2.2",
     "clean-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.1.1",
     "webpack": "4.41.6",

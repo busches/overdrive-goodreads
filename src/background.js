@@ -31,7 +31,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 			// Also don't care about books with no ratings
 			const title = searchResult.querySelector('title').textContent;
 			const ratingsCount = parseInt(searchResult.querySelector('ratings_count').textContent, 10);
-			if (!title.startsWith('Summary') && ratingsCount > 0) {
+			if (!title.toLowerCase().startsWith('summary') && !title.toLowerCase().startsWith('analysis') && !title.toLowerCase().includes('collection') && ratingsCount > 0) {
 				filteredResults.push(searchResult);
 			}
 		});
@@ -47,7 +47,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 			});
 			const firstTitle = allTitles[0];
 			const allTitlesMatch = allTitles.every(title => title === firstTitle);
-			
+
 			console.log(searchString, "All Titles Match", allTitlesMatch)
 			if (allTitlesMatch) {
 				let highestRatedResult = null;

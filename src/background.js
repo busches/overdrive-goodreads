@@ -1,6 +1,6 @@
 import mem from 'mem';
+import xml2js from 'xml2js';
 import secrets from 'secrets';
-import xml2js from "xml2js";
 
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 
@@ -51,7 +51,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 			// A lot of results start with 'Summary' we don't care about those
 			// Also don't care about books with no ratings
 			const title = searchResult.best_book[0].title[0];
-			const ratingsCount = Number.parseInt(searchResult.ratings_count[0]['_'], 10);
+			const ratingsCount = Number.parseInt(searchResult.ratings_count[0]._, 10);
 			if (!title.toLowerCase().startsWith('summary') && !title.toLowerCase().startsWith('analysis') && !title.toLowerCase().includes('collection') && ratingsCount > 0) {
 				filteredResults.push(searchResult);
 			}
@@ -75,7 +75,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 				let highestRating = 0;
 
 				for (const searchResult of filteredResults) {
-					const thisRating = Number.parseInt(searchResult.ratings_count[0]['_'], 10);
+					const thisRating = Number.parseInt(searchResult.ratings_count[0]._, 10);
 					if (thisRating > highestRating) {
 						highestRating = thisRating;
 						highestRatedResult = searchResult;
@@ -123,7 +123,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 function getResultMatchData(data, searchString) {
 	const rating = data.average_rating[0];
-	const bookId = data.best_book[0].id[0]['_'];
+	const bookId = data.best_book[0].id[0]._;
 	return {
 		bookId,
 		rating,

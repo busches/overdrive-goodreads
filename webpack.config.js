@@ -68,6 +68,8 @@ const options = {
         level: 'info',
     }
 };
-options.devtool = 'cheap-module-source-map';
+if (process.env.NODE_ENV !== 'production') {
+    options.devtool = 'cheap-module-source-map';
+}
 
 module.exports = options;

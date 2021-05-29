@@ -2,12 +2,10 @@ import React from 'dom-chef';
 
 const addReview = (bookElement, bookData) => {
 	// TODO Display series name here too
-	let rating = `GR ${bookData.rating}`;
-	rating = bookData.bookId ? <a href={`https://www.goodreads.com/book/show/${bookData.bookId}`} target="_blank" rel="noopener noreferrer">{rating}</a> : <a href={`https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`} target="_blank" rel="noopener noreferrer">{rating}</a>;
-
+	const url = bookData.bookId ? `https://www.goodreads.com/book/show/${bookData.bookId}` : `https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`;
 	bookElement.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
-			{rating}
+			<a href={url} target="_blank" rel="noopener noreferrer">GR {bookData.rating}</a>
 		</span>
 	);
 };

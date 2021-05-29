@@ -38,9 +38,9 @@ const options = {
 	plugins: [
 		// Clean the build folder
 		new CleanWebpackPlugin(),
-		new CopyWebpackPlugin([{
+		new CopyWebpackPlugin({patterns: [{
 			from: 'src/manifest.json'
-		}])
+		}]})
 	]
 };
 

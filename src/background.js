@@ -1,5 +1,6 @@
 import mem from 'mem';
 import secrets from 'secrets';
+import xml2js from "xml2js";
 
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 
@@ -37,19 +38,20 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 	// TODO Move this to API class
 	const response = await fetch(`https://www.goodreads.com/search/index?key=${secrets.goodreadsApiKey}&q=${encodeURIComponent(searchString)}`);
 	const xml = await response.text();
-	const data = (new window.DOMParser()).parseFromString(xml, 'text/xml');
-	const numberOfResults = data.querySelector('results-end').textContent; // Total-results is sometimes just wrong
+	const parser = new xml2js.Parser();
+	const data = await parser.parseStringPromise(xml);
+	const numberOfResults = Number.parseInt(data.GoodreadsResponse.search[0]['results-end'], 10); // Total-results is sometimes just wrong
 
 	console.log(`Search for ${searchString}`);
 
 	if (numberOfResults > 1) {
-		const allResults = data.querySelectorAll('work');
+		const allResults = data.GoodreadsResponse.search[0].results[0].work;
 		const filteredResults = [];
 		for (const searchResult of allResults) {
 			// A lot of results start with 'Summary' we don't care about those
 			// Also don't care about books with no ratings
-			const title = searchResult.querySelector('title').textContent;
-			const ratingsCount = Number.parseInt(searchResult.querySelector('ratings_count').textContent, 10);
+			const title = searchResult.best_book[0].title[0];
+			const ratingsCount = Number.parseInt(searchResult.ratings_count[0]['_'], 10);
 			if (!title.toLowerCase().startsWith('summary') && !title.toLowerCase().startsWith('analysis') && !title.toLowerCase().includes('collection') && ratingsCount > 0) {
 				filteredResults.push(searchResult);
 			}
@@ -62,7 +64,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 			console.log(searchString, 'Filtered results', filteredResults);
 			const allTitles = filteredResults.map(searchResult => {
 				console.log(searchString, 'Search Result:', searchResult);
-				return searchResult.querySelector('title').textContent.toLowerCase();
+				return searchResult.best_book[0].title[0].toLowerCase();
 			});
 			const firstTitle = allTitles[0];
 			const allTitlesMatch = allTitles.every(title => title === firstTitle);
@@ -73,7 +75,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 				let highestRating = 0;
 
 				for (const searchResult of filteredResults) {
-					const thisRating = Number.parseInt(searchResult.querySelector('ratings_count').textContent, 10);
+					const thisRating = Number.parseInt(searchResult.ratings_count[0]['_'], 10);
 					if (thisRating > highestRating) {
 						highestRating = thisRating;
 						highestRatedResult = searchResult;
@@ -85,7 +87,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 
 			const exactTitleMatches = [];
 			for (const searchResult of filteredResults) {
-				const title = searchResult.querySelector('title').textContent;
+				const title = searchResult.best_book[0].title[0];
 				if (title === searchTitle) {
 					exactTitleMatches.push(searchResult);
 				}
@@ -109,7 +111,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 		return noMatchFound;
 	}
 
-	return getResultMatchData(data, searchString);
+	return getResultMatchData(data.GoodreadsResponse.search[0].results[0].work[0], searchString);
 }, {
 	maxAge: ONE_WEEK
 });
@@ -120,8 +122,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 function getResultMatchData(data, searchString) {
-	const rating = data.querySelector('work average_rating').textContent;
-	const bookId = data.querySelector('work best_book id').textContent;
+	const rating = data.average_rating[0];
+	const bookId = data.best_book[0].id[0]['_'];
 	return {
 		bookId,
 		rating,

@@ -107,7 +107,7 @@ const getGoodreadsData = mem(async (searchTitle, searchAuthor) => {
 		if (filteredResults.length === 1) {
 			return getResultMatchData(filteredResults[0], searchString);
 		}
-	} else if (numberOfResults === '0') {
+	} else if (numberOfResults === 0) {
 		return noMatchFound;
 	}
 

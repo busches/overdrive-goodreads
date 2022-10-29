@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState } from "react";
 
 function IndexPopup() {
-    const [data, setData] = useState("")
+    const [data, setData] = useState("");
 
     return (
         <div
@@ -22,7 +22,7 @@ function IndexPopup() {
                 View Docs
             </a>
         </div>
-    )
+    );
 }
 
-export default IndexPopup
+export default IndexPopup;

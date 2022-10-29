@@ -1,6 +1,6 @@
 import mem from 'mem';
 import xml2js from 'xml2js';
-import secrets from 'secrets';
+import secrets from 'old/secrets';
 
 const ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 

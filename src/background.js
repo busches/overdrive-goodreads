@@ -26,21 +26,21 @@ const getGoodreadsData = memoize(
 		const searchString = `${searchTitle} ${searchAuthor}`;
 		const noMatchFound = {
 			rating: '??',
-			searchString
+			searchString,
 		};
 
 		// TODO Move this to API class
 		const response = await fetch(
 			`https://www.goodreads.com/search/index?key=${
 				secrets.goodreadsApiKey
-			}&q=${encodeURIComponent(searchString)}`
+			}&q=${encodeURIComponent(searchString)}`,
 		);
 		const xml = await response.text();
 		const parser = new xml2js.Parser();
 		const data = await parser.parseStringPromise(xml);
 		const numberOfResults = Number.parseInt(
 			data.GoodreadsResponse.search[0]['results-end'],
-			10
+			10,
 		); // Total-results is sometimes just wrong
 
 		console.log(`Search for ${searchString}`);
@@ -53,19 +53,19 @@ const getGoodreadsData = memoize(
 					const title = searchResult.best_book[0].title[0].toLowerCase();
 
 					return (
-						!title.startsWith('summary') &&
-            !title.startsWith('analysis') &&
-            !title.includes('collection') &&
-            !title.includes('sneak peek') &&
-            !title.includes('study guide') &&
-            !title.includes(' / ')
+						!title.startsWith('summary')
+            && !title.startsWith('analysis')
+            && !title.includes('collection')
+            && !title.includes('sneak peek')
+            && !title.includes('study guide')
+            && !title.includes(' / ')
 					);
 				})
 				.filter(searchResult => {
 					// Also don't care about books with no ratings
 					const ratingsCount = Number.parseInt(
 						searchResult.ratings_count[0]._,
-						10
+						10,
 					);
 					return ratingsCount > 0;
 				});
@@ -73,7 +73,7 @@ const getGoodreadsData = memoize(
 			console.log(
 				searchString,
 				'Filtered results count',
-				filteredResults.length
+				filteredResults.length,
 			);
 
 			// ignore () crap from GoodReads
@@ -107,7 +107,7 @@ const getGoodreadsData = memoize(
 					for (const searchResult of filteredResults) {
 						const thisRating = Number.parseInt(
 							searchResult.ratings_count[0]._,
-							10
+							10,
 						);
 						if (thisRating > highestRating) {
 							highestRating = thisRating;
@@ -146,12 +146,12 @@ const getGoodreadsData = memoize(
 
 		return getResultMatchData(
 			data.GoodreadsResponse.search[0].results[0].work[0],
-			searchString
+			searchString,
 		);
 	},
 	{
-		maxAge: ONE_WEEK
-	}
+		maxAge: ONE_WEEK,
+	},
 );
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -165,6 +165,6 @@ function getResultMatchData(data, searchString) {
 	return {
 		bookId,
 		rating,
-		searchString
+		searchString,
 	};
 }

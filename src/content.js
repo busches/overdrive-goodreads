@@ -5,15 +5,15 @@ const addReview = (bookElement, bookData) => {
 	const url = bookData.bookId ? `https://www.goodreads.com/book/show/${bookData.bookId}` : `https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`;
 	bookElement.querySelector('span i').parentElement.append(
 		<span style={{float: 'right'}}>
-			<a href={url} target="_blank" rel="noopener noreferrer">GR {bookData.rating}</a>
-		</span>
+			<a href={url} target='_blank' rel='noopener noreferrer'>GR {bookData.rating}</a>
+		</span>,
 	);
 };
 
 const searchGoodReads = (title, author, bookElement) => {
 	chrome.runtime.sendMessage(
 		{title, author},
-		bookData => addReview(bookElement, bookData)
+		bookData => addReview(bookElement, bookData),
 	);
 };
 

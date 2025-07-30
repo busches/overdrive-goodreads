@@ -8,8 +8,8 @@
     "lint-fix": "xo --fix"
   },
   "dependencies": {
-    "dom-chef": "^5.1.0",
-    "mem": "^9.0.2",
+    "dom-chef": "^5.0.0",
+    "mem": "^8.1.1",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {
@@ -19,9 +19,10 @@
     "clean-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "11.0.0",
     "error-logger-webpack-plugin": "^1.1.1",
-    "node-polyfill-webpack-plugin": "^2.0.1",
-    "source-map-loader": "^4.0.1",
+    "node-polyfill-webpack-plugin": "^1.1.2",
+    "source-map-loader": "^3.0.0",
     "webpack": "5.75.0",
+    "webpack-cli": "4.7.0",
     "xo": "^0.53.1"
   },
   "xo": {

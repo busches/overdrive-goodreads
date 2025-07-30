@@ -1,7 +1,6 @@
 node_modules
 build
 secrets.js
-package-lock.json
 .vscode
 
 # Created by https://www.toptal.com/developers/gitignore/api/node,visualstudiocode,intellij+all

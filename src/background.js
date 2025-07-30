@@ -30,11 +30,9 @@ const getGoodreadsData = memoize(
 		};
 
 		// TODO Move this to API class
-		const response = await fetch(
-			`https://www.goodreads.com/search/index?key=${
-				secrets.goodreadsApiKey
-			}&q=${encodeURIComponent(searchString)}`,
-		);
+		const response = await fetch(`https://www.goodreads.com/search/index?key=${
+			secrets.goodreadsApiKey
+		}&q=${encodeURIComponent(searchString)}`);
 		const xml = await response.text();
 		const parser = new xml2js.Parser();
 		const data = await parser.parseStringPromise(xml);
@@ -54,11 +52,11 @@ const getGoodreadsData = memoize(
 
 					return (
 						!title.startsWith('summary')
-            && !title.startsWith('analysis')
-            && !title.includes('collection')
-            && !title.includes('sneak peek')
-            && !title.includes('study guide')
-            && !title.includes(' / ')
+						&& !title.startsWith('analysis')
+						&& !title.includes('collection')
+						&& !title.includes('sneak peek')
+						&& !title.includes('study guide')
+						&& !title.includes(' / ')
 					);
 				})
 				.filter(searchResult => {
@@ -81,7 +79,8 @@ const getGoodreadsData = memoize(
 				let updatedTitle = result.best_book[0].title[0];
 
 				if (updatedTitle.includes('(')) {
-					updatedTitle = updatedTitle.slice(0, Math.max(0, updatedTitle.indexOf('(')))
+					updatedTitle = updatedTitle
+						.slice(0, Math.max(0, updatedTitle.indexOf('(')))
 						.trim();
 				}
 
@@ -155,7 +154,11 @@ const getGoodreadsData = memoize(
 );
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-	getGoodreadsData(request.title, request.author).then(sendResponse);
+	(async () => {
+		const response = await getGoodreadsData(request.title, request.author);
+		sendResponse(response);
+	})();
+
 	return true;
 });
 

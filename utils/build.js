@@ -10,5 +10,5 @@ webpack(
 		if (error) {
 			throw error;
 		}
-	}
+	},
 );

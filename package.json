@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "dom-chef": "^5.0.0",
-    "mem": "^8.1.1",
+    "memoize": "^10.1.0",
     "xml2js": "^0.4.23"
   },
   "devDependencies": {

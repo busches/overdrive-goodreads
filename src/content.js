@@ -17,8 +17,8 @@ const searchGoodReads = (title, author, bookElement) => {
 
 const searchForBooks = container => {
 	for (const book of container.querySelectorAll('li.js-titleCard')) {
-		const {title} = book.querySelector('h3');
-		const author = book.querySelector('.title-author a').title;
+		const {title} = book.querySelector('.title-name');
+		const {title: author} = book.querySelector('.title-author a');
 
 		searchGoodReads(title, author, book);
 	}

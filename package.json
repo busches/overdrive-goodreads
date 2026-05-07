@@ -8,9 +8,9 @@
     "lint-fix": "xo --fix"
   },
   "dependencies": {
-    "@types/chrome": "^0.1.38",
+    "@types/chrome": "^0.1.40",
     "dom-chef": "^5.0.0",
-    "memoize": "^10.2.0",
+    "memoize": "^11.0.0",
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
@@ -19,10 +19,10 @@
     "babel-loader": "10.1.1",
     "copy-webpack-plugin": "14.0.0",
     "error-logger-webpack-plugin": "^1.1.0",
-    "globals": "^17.4.0",
+    "globals": "^17.6.0",
     "node-polyfill-webpack-plugin": "^4.1.0",
     "source-map-loader": "^5.0.0",
-    "webpack": "5.105.4",
+    "webpack": "5.106.2",
     "xo": "^2.0.2"
   }
 }

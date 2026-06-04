@@ -44,13 +44,9 @@ const options = {
     alias,
     extensions: [".js"],
     fallback: {
-      child_process: false,
-      fs: false,
-      net: false,
       stream: false,
       string_decoder: false,
       timers: false,
-      tls: false,
     },
   },
   plugins: [

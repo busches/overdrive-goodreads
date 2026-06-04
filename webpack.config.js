@@ -3,7 +3,6 @@ const fileSystem = require("node:fs");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
 const ErrorLoggerPlugin = require("error-logger-webpack-plugin");
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 // Load the secrets
 const alias = {};
@@ -44,16 +43,10 @@ const options = {
   resolve: {
     alias,
     extensions: [".js"],
-    fallback: {
-      child_process: false,
-      fs: false,
-      net: false,
-      tls: false,
-    },
+    fallback: {},
   },
   plugins: [
     new ErrorLoggerPlugin({ verbose: false }),
-    new NodePolyfillPlugin(),
     new webpack.ProgressPlugin(),
     // Clean the build folder
     new CopyWebpackPlugin({

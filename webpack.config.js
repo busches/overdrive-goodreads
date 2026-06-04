@@ -43,11 +43,7 @@ const options = {
   resolve: {
     alias,
     extensions: [".js"],
-    fallback: {
-      stream: false,
-      string_decoder: false,
-      timers: false,
-    },
+    fallback: {},
   },
   plugins: [
     new ErrorLoggerPlugin({ verbose: false }),

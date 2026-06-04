@@ -51,8 +51,8 @@ test('prefers the book with the highest number of ratings', async () => {
 
 	const result = await parseGoodreadsData(xmlResponse, searchString);
 	expect(result).toMatchObject({
-		bookId: '246481295',
-		rating: '4.58',
+		bookId: 246_481_295,
+		rating: 4.58,
 		searchString: 'The Will of the Many James Islington',
 	});
 });

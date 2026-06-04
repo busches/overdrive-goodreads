@@ -1,8 +1,8 @@
-import xml2js from 'xml2js';
+import {XMLParser} from 'fast-xml-parser';
 
 function getResultMatchData(data, searchString) {
 	const rating = data.average_rating;
-	const bookId = data.best_book.id._;
+	const bookId = data.best_book.id;
 	return {
 		bookId,
 		rating,
@@ -15,12 +15,9 @@ export async function parseGoodreadsData(xml, searchString) {
 		rating: '??',
 		searchString,
 	};
-	const parser = new xml2js.Parser({explicitArray: false});
-	const data = await parser.parseStringPromise(xml);
-	const numberOfResults = Number.parseInt(
-		data.GoodreadsResponse.search['results-end'],
-		10,
-	); // Total-results is sometimes just wrong
+	const parser = new XMLParser();
+	const data = parser.parse(xml);
+	const numberOfResults = data.GoodreadsResponse.search['results-end']; // Total-results is sometimes just wrong
 
 	console.log(`Search for ${searchString}`);
 
@@ -31,8 +28,8 @@ export async function parseGoodreadsData(xml, searchString) {
 		let highestRatedWork = allResults[0]; // Start with the first item
 
 		for (const result of allResults) {
-			const currentCount = Number.parseInt(result.ratings_count._, 10);
-			const highestCount = Number.parseInt(highestRatedWork.ratings_count._, 10);
+			const currentCount = result.ratings_count;
+			const highestCount = highestRatedWork.ratings_count;
 
 			if (currentCount > highestCount) {
 				highestRatedWork = result;

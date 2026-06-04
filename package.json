@@ -11,8 +11,8 @@
   "dependencies": {
     "@types/chrome": "^0.1.40",
     "dom-chef": "^5.0.0",
-    "memoize": "^11.0.0",
-    "xml2js": "^0.6.2"
+    "fast-xml-parser": "^5.8.0",
+    "memoize": "^11.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.29.0",

@@ -26,3 +26,6 @@ jobs:
 
       - name: Run xo
         run: npm run lint
+
+      - name: Build
+        run: npm run build

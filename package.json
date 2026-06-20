@@ -23,7 +23,7 @@
     "globals": "^17.6.0",
     "source-map-loader": "^5.0.0",
     "vitest": "^4.1.9",
-    "webpack": "5.106.2",
+    "webpack": "5.107.2",
     "xo": "^2.0.2"
   }
 }

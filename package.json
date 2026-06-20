@@ -11,7 +11,7 @@
   "dependencies": {
     "@types/chrome": "^0.2.0",
     "dom-chef": "^5.0.0",
-    "fast-xml-parser": "^5.8.0",
+    "fast-xml-parser": "^5.9.3",
     "memoize": "^11.0.0"
   },
   "devDependencies": {

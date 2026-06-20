@@ -3,7 +3,7 @@ import React from 'dom-chef';
 const addReview = (bookElement, bookData) => {
 	// TODO Display series name here too
 	const url = bookData.bookId ? `https://www.goodreads.com/book/show/${bookData.bookId}` : `https://www.goodreads.com/search?q=${encodeURIComponent(bookData.searchString)}`;
-	bookElement.querySelector('span i').parentElement.append(<span style={{float: 'right'}}>
+	bookElement.querySelector(':scope span i').parentElement.append(<span style={{float: 'right'}}>
 		<a href={url} target='_blank' rel='noopener noreferrer'>GR {bookData.rating}</a>
 	</span>);
 };
@@ -18,7 +18,7 @@ const searchGoodReads = (title, author, bookElement) => {
 const searchForBooks = container => {
 	for (const book of container.querySelectorAll('li.js-titleCard')) {
 		const {title} = book.querySelector('.title-name');
-		const {title: author} = book.querySelector('.title-author a');
+		const {title: author} = book.querySelector(':scope .title-author a');
 
 		searchGoodReads(title, author, book);
 	}

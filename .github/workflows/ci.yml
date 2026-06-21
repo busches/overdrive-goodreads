@@ -3,6 +3,7 @@ name: CI
 on:
   pull_request:
     types: [opened, reopened, edited, closed, synchronize]
+  workflow_dispatch: # Enables manual triggering
 
 jobs:
   build:

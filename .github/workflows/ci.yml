@@ -2,7 +2,8 @@ name: CI
 
 on:
   pull_request:
-    branches: [ main ]
+    types: [opened, reopened, edited, closed, synchronize]
+  workflow_dispatch: # Enables manual triggering
 
 jobs:
   build:
@@ -26,3 +27,8 @@ jobs:
 
       - name: Run xo
         run: npm run lint
+
+      - name: Build
+        run: |
+          echo "export default { goodreadsApiKey: "fake" }" > secrets.js
+          npm run build

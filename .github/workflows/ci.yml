@@ -5,6 +5,9 @@ on:
     types: [opened, reopened, edited, closed, synchronize]
   workflow_dispatch: # Enables manual triggering
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

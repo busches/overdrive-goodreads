@@ -20,6 +20,20 @@
 		}
 	],
 	"background": {
-		"service_worker": "background.bundle.js"
+		"service_worker": "background.bundle.js",
+		"scripts": [
+			"background.bundle.js"
+		]
+	},
+	"browser_specific_settings": {
+		"gecko": {
+			"id": "@bridges-goodreads",
+			"data_collection_permissions": {
+				"required": [
+					"none"
+				]
+			},
+			"strict_min_version": "58.0"
+		}
 	}
 }

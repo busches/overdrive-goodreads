@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Goodreads Integration for Bridges",
   "scripts": {
-    "build": "node utils/build.js",
+    "build": "node utils/build.js && cd build && npx web-ext build",
     "lint": "xo",
     "lint-fix": "xo --fix",
     "test": "vitest"

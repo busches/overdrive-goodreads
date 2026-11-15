@@ -1,9 +1,14 @@
-/** @type {import('xo').FlatXoConfig} */
+/**
+ @type {import('xo').FlatXoConfig}
+ */
 import globals from 'globals';
 
 const xoConfig = [
 	{
-		ignores: ['utils/*', 'webpack.config.js'],
+		ignores: [
+			'utils/**',
+			'webpack.config.cjs',
+		],
 	},
 	{
 		languageOptions: {
@@ -19,6 +24,15 @@ const xoConfig = [
 					varsIgnorePattern: '^React$',
 				},
 			],
+		},
+	},
+	{
+		files: ['**/package.json'],
+		rules: {
+			'package-json/prefer-files-field': 'off',
+			'package-json/require-entry-point': 'off',
+			'package-json/require-fields': 'off',
+			'package-json/prefer-engines-range': 'off',
 		},
 	},
 ];
